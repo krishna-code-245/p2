@@ -1,90 +1,134 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>User Data Form</title>
-</head>
-<body>
-
-    <h2>User Study Data</h2>
-
-    <form onsubmit="saveData(event)">
-        <label>
-            Name:
-            <input type="text" id="username" required>
-        </label>
-        <br><br>
-
-        <label>
-            Subject:
-            <select id="subject" required>
-                <option value="Physics">Physics</option>
-                <option value="Chemistry">Chemistry</option>
-                <option value="General Maths">General Maths</option>
-            </select>
-        </label>
-        <br><br>
-
-        <label>
-            Class:
-            <select id="classType" required>
-                <option value="JEE">JEE</option>
-                <option value="NEET">NEET</option>
-            </select>
-        </label>
-        <br><br>
-
-        <label>
-            Daily study hours:
-            <input type="number" id="hours" required>
-        </label>
-        <br><br>
-
-        <input type="submit" value="Save">
-    </form>
-
-    <h3>Saved Data:</h3>
-    <button type="button" onclick="loadData()">Load Saved Data</button>
-    <button type="button" onclick="clearData()">Clear Data</button>
-
-    <p id="output"></p>
-
-    <script>
-        function saveData(event) {
-            event.preventDefault();
-
-            const data = {
-                name: document.getElementById("username").value,
-                subject: document.getElementById("subject").value,
-                classType: document.getElementById("classType").value,
-                hours: document.getElementById("hours").value
-            };
-
-            localStorage.setItem("studyData", JSON.stringify(data));
-            alert("Data saved in browser!");
-        }
-
-        function loadData() {
-            const saved = localStorage.getItem("studyData");
-
-            if (saved) {
-                const data = JSON.parse(saved);
-                document.getElementById("output").innerHTML =
-                    "Name: " + data.name + "<br>" +
-                    "Subject: " + data.subject + "<br>" +
-                    "Class: " + data.classType + "<br>" +
-                    "Daily Study Hours: " + data.hours;
-            } else {
-                document.getElementById("output").textContent = "No data saved yet.";
-            }
-        }
-
-        function clearData() {
-            localStorage.removeItem("studyData");
-            document.getElementById("output").textContent = "";
-            alert("Data cleared!");
-        }
-    </script>
-
 </body>
 </html>
+<style>
+  body {
+    font-family: "Segoe UI", sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    color: white;
+  }
+
+  header {
+    text-align: center;
+    padding: 30px 20px;
+  }
+
+  header h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(to right, #00f2fe, #4facfe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  nav {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  nav a {
+    color: #4facfe;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+  }
+
+  nav a:hover {
+    text-decoration: underline;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+  }
+
+  .content {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .main {
+    flex: 2;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(79,172,254,0.4);
+  }
+
+  .main h2 {
+    text-align: center;
+    color: #4facfe;
+  }
+
+  label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background: rgba(255,255,255,0.9);
+    color: #333;
+    font-size: 15px;
+  }
+
+  input:focus, select:focus {
+    box-shadow: 0 0 10px #4facfe;
+  }
+
+  input[type="submit"] {
+    margin-top: 20px;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  input[type="submit"]:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #4facfe;
+  }
+
+  #status {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #00f2fe;
+    text-align: center;
+  }
+
+  .sidebar {
+    flex: 1;
+    text-align: center;
+  }
+
+  .sidebar img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+    filter: drop-shadow(0 0 20px rgba(255,255,255,0.4));
+  }
+
+  footer {
+    text-align: center;
+    padding: 15px;
+    color: #ccc;
+    margin-top: 40px;
+  }
+
+  @media (max-width: 768px) {
+    .content {
+      flex-direction: column;
+    }
+  }
+</style>
