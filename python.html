@@ -1,31 +1,77 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>USER DATA FORM</title>
-    </head>
-    <body>
-        <h2>user study data</h2>
+<head>
+    <title>USER DATA FORM</title>
+</head>
+<body>
+    <h2>User Study Data</h2>
 
-    <form action="/sumbit" method="post">
-        name: <input type="text" name="Name of the user:" required><br><br>
-        
-        subject: 
-        <input type="text" name="subject the user wants to study:" required><br><br>
-             <option value="physics">physics</option>
-             <option value="chemistry">chemistry</option>
-             <option value="general maths">general maths</option>
-    </select>>
-    <br><br>
-        class: 
-        <input type="text" name="class:"required>
-            <option value="jee">jee</option>
-            <option value="neet">neet</option>
+    <form onsubmit="saveData(event)">
+        Name:
+        <input type="text" id="username" required><br><br>
+
+        Subject:
+        <select id="subject" required>
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="General Maths">General Maths</option>
         </select>
         <br><br>
-    
-        Daily study hours: <input type="number" name="daily_study_hours" required><br><br>
-        
-            <input type="submit" value="Submit">
+
+        Class:
+        <select id="classType" required>
+            <option value="JEE">JEE</option>
+            <option value="NEET">NEET</option>
+        </select>
+        <br><br>
+
+        Daily study hours:
+        <input type="number" id="hours" required><br><br>
+
+        <input type="submit" value="Save">
     </form>
-    </body>
+
+    <h3>Saved Data:</h3>
+    <button onclick="loadData()">Load Saved Data</button>
+    <button onclick="clearData()">Clear Data</button>
+
+    <p id="output"></p>
+
+    <script>
+        function saveData(event) {
+            event.preventDefault(); // stop page reload
+
+            let data = {
+                name: document.getElementById("username").value,
+                subject: document.getElementById("subject").value,
+                classType: document.getElementById("classType").value,
+                hours: document.getElementById("hours").value
+            };
+
+            localStorage.setItem("studyData", JSON.stringify(data));
+            alert("Data saved in browser!");
+        }
+
+        function loadData() {
+            let saved = localStorage.getItem("studyData");
+
+            if (saved) {
+                let data = JSON.parse(saved);
+                document.getElementById("output").innerHTML =
+                    "Name: " + data.name + "<br>" +
+                    "Subject: " + data.subject + "<br>" +
+                    "Class: " + data.classType + "<br>" +
+                    "Daily Study Hours: " + data.hours;
+            } else {
+                document.getElementById("output").innerHTML = "No data saved yet.";
+            }
+        }
+
+        function clearData() {
+            localStorage.removeItem("studyData");
+            document.getElementById("output").innerHTML = "";
+            alert("Data cleared!");
+        }
+    </script>
+</body>
 </html>
