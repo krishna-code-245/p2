@@ -1,1 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Data Form</title>
+</head>
+<body>
 
+    <h2>User Study Data</h2>
+
+    <form onsubmit="saveData(event)">
+        <label>
+            Name:
+            <input type="text" id="username" required>
+        </label>
+        <br><br>
+
+        <label>
+            Subject:
+            <select id="subject" required>
+                <option value="Physics">Physics</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="General Maths">General Maths</option>
+            </select>
+        </label>
+        <br><br>
+
+        <label>
+            Class:
+            <select id="classType" required>
+                <option value="JEE">JEE</option>
+                <option value="NEET">NEET</option>
+            </select>
+        </label>
+        <br><br>
+
+        <label>
+            Daily study hours:
+            <input type="number" id="hours" required>
+        </label>
+        <br><br>
+
+        <input type="submit" value="Save">
+    </form>
+
+    <h3>Saved Data:</h3>
+    <button type="button" onclick="loadData()">Load Saved Data</button>
+    <button type="button" onclick="clearData()">Clear Data</button>
+
+    <p id="output"></p>
+
+    <script>
+        function saveData(event) {
+            event.preventDefault();
+
+            const data = {
+                name: document.getElementById("username").value,
+                subject: document.getElementById("subject").value,
+                classType: document.getElementById("classType").value,
+                hours: document.getElementById("hours").value
+            };
+
+            localStorage.setItem("studyData", JSON.stringify(data));
+            alert("Data saved in browser!");
+        }
+
+        function loadData() {
+            const saved = localStorage.getItem("studyData");
+
+            if (saved) {
+                const data = JSON.parse(saved);
+                document.getElementById("output").innerHTML =
+                    "Name: " + data.name + "<br>" +
+                    "Subject: " + data.subject + "<br>" +
+                    "Class: " + data.classType + "<br>" +
+                    "Daily Study Hours: " + data.hours;
+            } else {
+                document.getElementById("output").textContent = "No data saved yet.";
+            }
+        }
+
+        function clearData() {
+            localStorage.removeItem("studyData");
+            document.getElementById("output").textContent = "";
+            alert("Data cleared!");
+        }
+    </script>
+
+</body>
+</html>
